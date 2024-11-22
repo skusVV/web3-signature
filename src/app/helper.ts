@@ -1,5 +1,9 @@
 import { ethers } from "ethers";
 
+declare global {
+    interface Window { ethereum: any; }
+}
+
 export async function verifyUser(message: string, signature: string, expectedAddress: string) {
     const recoveredAddress = await ethers.verifyMessage(message, signature);
     return recoveredAddress === expectedAddress; // Returns true if the user is real
@@ -7,7 +11,7 @@ export async function verifyUser(message: string, signature: string, expectedAdd
   
 export  const signIn = async (message: string) => {
     try {
-        const provider = new ethers.BrowserProvider((window as any).ethereum);
+        const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         const signature = await signer.signMessage(message);
 
@@ -19,13 +23,13 @@ export  const signIn = async (message: string) => {
 }
   
 export const connectWallet = async () => {
-    if (!(window as any).ethereum) {
+    if (!window.ethereum) {
         alert("MetaMask is not installed!");
         return '';
     }
 
     try {
-        const provider = new ethers.BrowserProvider((window as any).ethereum);
+        const provider = new ethers.BrowserProvider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
         const signer = await provider.getSigner();
         const address = await signer.getAddress();
@@ -38,7 +42,7 @@ export const connectWallet = async () => {
   
 export const getNetwork = async () => {
     try {
-        const provider = new ethers.BrowserProvider((window as any).ethereum);
+        const provider = new ethers.BrowserProvider(window.ethereum);
         const network = await provider.getNetwork();
 
         return network;
