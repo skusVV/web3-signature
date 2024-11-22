@@ -1,8 +1,10 @@
 import { ethers } from "ethers";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
     interface Window { ethereum: any; }
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function verifyUser(message: string, signature: string, expectedAddress: string) {
     const recoveredAddress = await ethers.verifyMessage(message, signature);

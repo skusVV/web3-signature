@@ -1,5 +1,4 @@
 'use client'
-import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import { connectWallet, signIn, verifyUser, getNetwork } from "./helper";
 
@@ -21,7 +20,7 @@ export default function Home() {
     if (savedAddress) {
       setAddress(savedAddress)
     };
-    network()
+    network();
   }, []);
 
   const onConnect = async () => {
@@ -42,7 +41,7 @@ export default function Home() {
       const isVerified = await verifyUser(MESSAGE, signature, address);
       setIsVerified(isVerified);
     } catch(e) {
-
+      console.log(e);
     } finally {
       setIsLoading(false);
     }
